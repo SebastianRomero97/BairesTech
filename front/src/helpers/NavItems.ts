@@ -1,7 +1,9 @@
-enum PATHROUTES {
+export enum PATHROUTES {
     HOME = "/home",
-    CART = "/CART",
+    CART = "/cart",
     DASHBOAR = "/dashboard",
+    LOGIN = "/login",
+    REGISTER = "/register"
 }
 
 export const NavItems = [
@@ -16,5 +18,13 @@ export const NavItems = [
 {
     name:"Dashboard",
     route:PATHROUTES.DASHBOAR
+},
+{
+    name:"login",
+    route:PATHROUTES.LOGIN
+},
+{
+    name:"register",
+    route:PATHROUTES.REGISTER
 }
 ]

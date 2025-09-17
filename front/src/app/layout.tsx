@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono,Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import NavBar from "../components/NavBar"
+import { AuthProvider } from "@/context/AuthContext";
+import { Providers } from '@/components/Switcher/ThemeProvider';
+import { CartProvider } from "@/context/CartContext";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,13 +35,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${space_grotesk.variable}antialiased`}
-      >
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <Providers>
+       <div className={`${geistSans.variable} ${geistMono.variable} ${space_grotesk.variable}antialiased`}>
+        <AuthProvider>
+          <CartProvider>
+          <>
         <NavBar />
         {children}
+        </>
+        </CartProvider>
+        </AuthProvider>
+        </div>
+        </Providers>
       </body>
     </html>
   );

@@ -1,37 +1,169 @@
 @import "tailwindcss";
 
+/* ================================
+   Base tokens (puedes mantener los tuyos)
+================================ */
 @theme {
-  --color-custom-blue: #1A5DD6;
-  --color-custom-white: #F5F7FA;
-  --color-custom-gray: #6C757D;
-  --color-custom-black: #1C1C1C; 
+  --brand-400: #4e97ff;
+  --brand-500: #0a66c2; /* azul de marca */
+  --brand-600: #0959aa;
+
+  --near-white: #f6f8fb;   /* blanco no absoluto */
+  --near-black: #0a0a0a;   /* negro UI */
+  --gray-900:  #111827;    /* texto oscuro */
+  --gray-100:  #e5e7eb;    /* texto claro (no puro blanco) */
+
+  /* utilidades para tintes */
+  --tint-blue-08: rgba(10, 102, 194, .08);
+  --tint-blue-12: rgba(10, 102, 194, .12);
+  --tint-blue-16: rgba(10, 102, 194, .16);
+
+   --font-heading: var(--font-space_grotesk), sans-serif
+   --font-body: var(--font-inter), system-ui, sans-serif;
 }
 
-
-
-/*
+/* ================================
+   LIGHT THEME (default)
+================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  /* fondo: blanco → gris más oscuro hacia abajo */
+  --bg-color: #ffffff; /* color base por si no aplica el gradient */
+  --bg-gradient: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #fbfbf6 25%,
+    #f4f8d7 55%,
+    #59b8f8 100%
+  );
+
+  /* texto y borde */
+  --fg: var(--gray-900);        /* gris oscuro, no negro absoluto */
+  --border: var(--brand-500);   /* borde azul (pedido) */
+
+  /* botones */
+  --btn-bg: var(--near-white);  /* blanco no absoluto */
+  --btn-fg: #0b1220;            /* negro “UI” */
+  --btn-border: var(--brand-500);
+  /* hover = mismo fondo + tinte azul suave */
+  --btn-hover-shadow: inset 0 0 0 9999px var(--tint-blue-12);
+
+  /* tarjetas (igual que botón) */
+  --card-bg: var(--near-white);
+  --card-fg: #0b1220;
+  --card-border: var(--brand-500);
+  --card-hover-shadow: inset 0 0 0 9999px var(--tint-blue-12);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ================================
+   DARK THEME
+================================ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* fondo: azul oscuro → más oscuro hacia abajo */
+  --bg-color: #0b1930;
+  --bg-gradient: linear-gradient(
+    to bottom,
+    #0b1930 0%,
+    #0a1528 40%,
+    #070f1c 70%,
+    #050a14 100%
+  );
+
+  /* texto y borde */
+  --fg: #d1d5db;              /* gris claro (no blanco absoluto) */
+  --border: var(--brand-500); /* borde azul */
+
+  /* botones (negro con texto gris claro y borde azul) */
+  --btn-bg: var(--near-black);  /* negro */
+  --btn-fg: #f1f5f9;            /* gris claro (no blanco absoluto) */
+  --btn-border: var(--brand-500);
+  /* hover: tinte azul */
+  --btn-hover-shadow: inset 0 0 0 9999px var(--tint-blue-16);
+  /* tarjetas (mismo esquema que botón) */
+  --card-bg: var(--near-black);
+  --card-fg: #f1f5f9;
+  --card-border: var(--brand-500);
+  --card-hover-shadow: inset 0 0 0 9999px var(--tint-blue-16);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ================================
+   Aplicación global de fondo
+   (usamos gradient + color base)
+================================ */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--fg);
+  background-color: var(--bg-color);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-*/
+
+/* ==== NAV TOKENS ==== */
+:root {
+   --nav-bg: transparent;
+  --nav-border: var(--btn-border);
+  --nav-link: color-mix(in srgb, var(--fg) 85%, transparent);
+  --nav-link-hover: var(--fg);
+}
+:root[data-theme="dark"] {
+   --nav-bg: transparent;
+  --nav-border: var(--btn-border);
+  --nav-link: color-mix(in srgb, var(--fg) 80%, transparent);
+  --nav-link-hover: var(--fg);
+}
+
+/* === Contraste sobre imágenes/fondos oscuros === */
+:root {
+  --hero-overlay: rgba(0,0,0,.60);      /* más fuerte en light */
+  --fg-on-image: #e5e7eb;               /* texto claro sobre imagen */
+}
+:root[data-theme="dark"] {
+  --hero-overlay: rgba(0,0,0,.40);      /* un poco más suave en dark */
+  --fg-on-image: #e5e7eb;
+}
+
+/* Helper: cuando un bloque está sobre media oscura, forzá el fg local */
+.on-image { --fg: var(--fg-on-image); }
+
+/* (opcional) Navbar un poco más sólida en light sobre foto oscura */
+:root {
+  --nav-bg: color-mix(in srgb, white 50%, transparent); /* subimos opacidad */
+  --nav-border: var(--btn-border);
+  --nav-link: color-mix(in srgb, var(--fg) 85%, transparent);
+  --nav-link-hover: var(--fg);
+}
+:root[data-theme="dark"] {
+  --nav-bg: color-mix(in srgb, var(--near-black) 70%, transparent);
+}
+
+/* === Inputs base === */
+.input {
+  @apply w-full px-4 py-2 rounded-lg border
+         border-[var(--card-border)]
+         bg-[var(--card-bg)]
+         text-[var(--card-fg)]
+         placeholder-[color:var(--fg)/0.6]
+         focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]
+         transition-colors;
+}
+.input-error {
+  @apply border-red-500 focus:ring-red-500;
+}
+.label {
+  @apply block text-sm font-medium mb-1 text-[var(--fg)];
+}
+.error-text {
+  @apply text-sm text-red-500 mt-1;
+}
+
+
+/* helpers comunes */
+ /* Links de texto comunes (no botones) */
+ .link {
+   @apply underline-offset-4 hover:underline;
+   color: var(--brand-500);
+ } 
