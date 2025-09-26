@@ -1,39 +1,53 @@
-"use client";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-import Button from "@/components/Ui/button";
+'use client';
 
+import { useEffect, useState } from 'react';
+import { useTheme } from 'next-themes';
+import { FiSun, FiMoon } from 'react-icons/fi';
+import { useSmoothTheme } from '@/hooks/useSmoothTheme';
 
-export default function ThemeSwitcher() {
-  const { theme, resolvedTheme, setTheme } = useTheme();
+export default function ThemeFloatToggle() {
+  const { theme, resolvedTheme } = useTheme();
+  const { smoothSetTheme } = useSmoothTheme(450);
   const [mounted, setMounted] = useState(false);
-
-  // aseguramos que el cliente ya montó
   useEffect(() => setMounted(true), []);
 
-  // antes de montar devolvemos un botón neutro
+  // 1) Antes de montar: render estático (sin leer theme/resolvedTheme)
   if (!mounted) {
     return (
-    <Button variant="primary" size="sm" minWidth="9rem" disabled>
-        Cambiar tema
-      </Button>
+      <button
+        type="button"
+        aria-label="Cambiar tema"
+        className={[
+          'fixed left-4 top-4 z-[60]',
+          'h-12 w-12 rounded-full border  border-[var(--nav-border)]',
+          'bg-[var(--nav-bg)]/70 backdrop-blur-md shadow-lg',
+          'transition-all flex items-center justify-center'
+        ].join(' ')}
+      >
+        <span className="h-6 w-6" />
+      </button>
     );
   }
 
-  // usamos el tema actual (si está en "system", resolvedTheme te dice cuál aplica)
-  const current = (theme === "system" ? resolvedTheme : theme) || "light";
+  // 2) Ya montado: ahora sí podemos leer el tema real
+  const current = (theme === 'system' ? resolvedTheme : theme) || 'light';
+  const isDark = current === 'dark';
 
   return (
-    <Button 
-          variant="primary"
-          size="sm"
-          minWidth="9rem"
-          type="button"
-          aria-pressed={current === "dark"}
-          onClick={() => setTheme(current === "dark" ? "light" : "dark")}
-     
+    <button
+      type="button"
+      aria-label={isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+      onClick={() => smoothSetTheme(isDark ? 'light' : 'dark')}
+      className={[
+        'fixed left-4 top-4 z-[60]',
+        'h-12 w-12 rounded-full border border-[var(--nav-border)]',
+        'bg-[var(--nav-bg)]/70 backdrop-blur-md shadow-lg hover:shadow-xl',
+        'transition-all flex items-center justify-center',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-400)]',
+        'cursor-pointer'
+      ].join(' ')}
     >
-      {current === "dark" ? "Modo Claro" : "Modo Oscuro"}
-    </Button>
+      {isDark ? <FiMoon className="h-6 w-6" /> : <FiSun className="h-6 w-6" />}
+    </button>
   );
 }

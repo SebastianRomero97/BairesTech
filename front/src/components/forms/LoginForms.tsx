@@ -1,72 +1,82 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { loginUser } from "@/services/auth.services";
-import { LoginFormValuesType, loginInitialValues, loginValidationSchema } from "@/validators/loginSchema";
+import { loginUser } from "@/services/auth.services"; // ✅ usar este service
+import {
+  LoginFormValuesType,
+  loginInitialValues,
+  loginValidationSchema,
+} from "@/validators/loginSchema";
 import { useFormik } from "formik";
 import Button from "@/components/Ui/button";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { notifySuccess, notifyError } from "@/Alerts/notify";
+import FormField from "@/components/forms/FormField";
 
 function LoginForm() {
-    const {setDataUser} = useAuth()
-
-    const formik = useFormik<LoginFormValuesType>({
-        initialValues: loginInitialValues,
-        validationSchema: loginValidationSchema,
-        onSubmit: async (values, {resetForm}) => {
-            const response = await loginUser(values)
-            setDataUser(response)
-            console.log('login exitoso con respuesta del servidor', response)
-            resetForm();
-        },
-    });
-    return(
-        <form  onSubmit={formik.handleSubmit} 
-         className="max-w-md mx-auto p-6 rounded-xl shadow-lg bg-[var(--card-bg)] border border-[var(--card-border)] space-y-5">
-            <label htmlFor="email" className="label"> e-mail</label>
-            <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            className={`input ${
-            formik.errors.email && formik.touched.email ? "input-error" : ""
-          }`}
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            />
-            { formik.errors.email && formik.touched.email ? (
-                <p className="error-text">
-                    {formik.errors.email}
-                </p>
-                ) : null}
-
-            <label htmlFor="password" className="label">Constraseña</label>
-            <input 
-            id="password"
-            name="password"
-            type="password"
-            required
-            className={`input ${
-            formik.errors.password && formik.touched.password
-              ? "input-error"
-              : ""
-          }`}
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            />
-            {formik.errors.password && formik.touched.password ? (
-                <p id="password-error" className="error-text">
-                    {formik.errors.password}
-                </p>
-                ) : null }
+  const { setDataUser } = useAuth();
+  const router = useRouter();
+  const qs = useSearchParams();
+  const from = qs.get("from");
+  const setAuthFlag = () => {
+    // 7 días; ajustalo si querés
+    const maxAge = 60 * 60 * 24 * 7;
+    document.cookie = `bt_auth=1; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
+  };
 
 
-        <Button type="submit" variant="primary" size="md" className="w-full" disabled={formik.isSubmitting}>
-        {formik.isSubmitting ? "iniciando sesión..." : "Iniciar sesión"}</Button>
-        </form>
-    );
+  const formik = useFormik<LoginFormValuesType>({
+    initialValues: loginInitialValues,
+    validationSchema: loginValidationSchema,
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      try {
+        // el back responde { login: true, user, token }
+        const res = await loginUser(values);
+
+        // guardamos al mismo nivel para que dataUser.token esté disponible
+        setDataUser({ ...res.user, token: res.token });
+
+        setAuthFlag();
+
+        notifySuccess("Sesión iniciada");
+        resetForm();
+        router.replace(from || "/home");
+      } catch (err: any) {
+        notifyError(err?.message || "Credenciales inválidas");
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
+
+  return (
+    <form
+      onSubmit={formik.handleSubmit}
+      className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto p-6 md:p-8 rounded-xl shadow-lg bg-[var(--card-bg)] border border-[var(--card-border)]"
+    >
+      <FormField id="email" name="email" label="E-mail" type="email" formik={formik} />
+      <FormField id="password" name="password" label="Contraseña" type="password" formik={formik} />
+
+      <Button
+        type="submit"
+        variant="primary"
+        size="md"
+        className="w-full mt-2"
+        disabled={formik.isSubmitting}
+      >
+        {formik.isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}
+      </Button>
+
+      <p className="mt-4 text-sm text-center text-[color:var(--fg)/.75]">
+        ¿No tenés cuenta?{" "}
+        <Link
+          href={`/register${from ? `?from=${encodeURIComponent(from)}` : ""}`}
+          className="link"
+        >
+          Registrate
+        </Link>
+      </p>
+    </form>
+  );
 }
 export default LoginForm;

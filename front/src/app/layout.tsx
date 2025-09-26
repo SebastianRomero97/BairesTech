@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono,Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import NavBar from "../components/NavBar"
+import NavBar from "../components/Ui/NavBar"
 import { AuthProvider } from "@/context/AuthContext";
 import { Providers } from '@/components/Switcher/ThemeProvider';
 import { CartProvider } from "@/context/CartContext";
-
+import FixedBrandBadge from "@/components/Ui/FixedBrandBadge";
+import ThemeSwitcher from "@/components/Switcher/ThemeSwitcher";
+import Footer from "@/components/Ui/Footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -46,7 +48,10 @@ export default function RootLayout({
           <CartProvider>
           <>
         <NavBar />
+         <ThemeSwitcher />
         {children}
+         <FixedBrandBadge />
+         <Footer />
         </>
         </CartProvider>
         </AuthProvider>

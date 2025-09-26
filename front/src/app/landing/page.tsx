@@ -4,16 +4,20 @@ import Button from "@/components/Ui/button"
 import { H1 } from "@/components/Ui/typography";
 import { FaUser, FaUserPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
+import Background from "@/components/Ui/Background";
 
 export default function Landing () {
 
-    return (
+   
 
-    <div className="absolute inset-0 bg-[url('/landing.png')] bg-cover bg-center -z-10">
-  {/* Overlay con token por tema */}
-  <div className="absolute inset-0 bg-[var(--hero-overlay)]" />
-       {/* Contenido */}
-  <div className="relative z-10 h-full flex items-center justify-center px-6">
+
+    return (
+<>
+    <Background />
+ 
+
+       
+  <div className="relative z-10 h-full flex items-center justify-center px-6 translate-y-40">
     <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8">
           
           {/* Texto a la izquierda */}
@@ -59,6 +63,6 @@ export default function Landing () {
           </motion.div>
         </div>
       </div>
-    </div>
+    </>
     )
 }

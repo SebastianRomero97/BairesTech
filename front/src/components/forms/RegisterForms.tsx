@@ -1,92 +1,76 @@
-"use client"
+"use client";
 
 import { registerUser } from "@/services/auth.services";
-import { RegisterFormValuesType, registerInitialValues, registerValidationSchema } from "@/validators/registerSchema";
-import {useFormik} from "formik"
+import {
+  RegisterFormValuesType,
+  registerInitialValues,
+  registerValidationSchema,
+} from "@/validators/registerSchema";
+import { useFormik } from "formik";
 import Button from "@/components/Ui/button";
+import { useRouter, useSearchParams } from "next/navigation";
+import { notifySuccess, notifyError } from "@/Alerts/notify";
+import FormField from "@/components/forms/FormField";
 
+function RegisterForm() {
+  const router = useRouter();
+  const qs = useSearchParams();
+  const from = qs.get("from");
 
-function RegisterForm(){
-
-
-    const formik = useFormik<RegisterFormValuesType>({
-        initialValues: registerInitialValues,
-        validationSchema: registerValidationSchema,
-        onSubmit: async(values, { resetForm}) => {
-            const response = await registerUser(values)
-        console.log("registro Procesado , con respuesta del sercer", response);
+  const formik = useFormik<RegisterFormValuesType>({
+    initialValues: registerInitialValues,
+    validationSchema: registerValidationSchema,
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      try {
+        await registerUser(values);
+        notifySuccess("Cuenta creada. Iniciá sesión para continuar.");
         resetForm();
-        }
-    })
+        router.replace(`/login${from ? `?from=${encodeURIComponent(from)}` : ""}`);
+      } catch (e: any) {
+        notifyError(e?.message || "No se pudo completar el registro");
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
 
+  return (
+    <form
+      onSubmit={formik.handleSubmit}
+   className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto p-6 md:p-8 rounded-xl shadow-lg bg-[var(--card-bg)] border border-[var(--card-border)]"
 
+    >
+      <FormField id="email" name="email" label="E-mail" type="email" formik={formik} />
+      <FormField id="password" name="password" label="Contraseña" type="password" formik={formik} />
+      <FormField
+        id="confirmPassword"
+        name="confirmPassword"
+        label="Confirmación de contraseña"
+        type="password"
+        formik={formik}
+      />
+      <FormField id="name" name="name" label="Nombre" type="text" formik={formik} />
+      <FormField id="address" name="address" label="Dirección" type="text" formik={formik} />
+      <FormField
+        id="phone"
+        name="phone"
+        label="Teléfono"
+        type="text"
+        formik={formik}
+        errorLines={2}   // por si el mensaje es más largo
+      />
 
-    return(
-     <form
-        onSubmit={formik.handleSubmit}
-         className="max-w-md mx-auto p-6 rounded-xl shadow-lg bg-[var(--card-bg)] border border-[var(--card-border)] space-y-4 "
-        >
-        <label htmlFor="email" className="label">e-mail</label>
-        <input id="email" name="email" type="email"  className={`input ${
-            formik.errors.email && formik.touched.email ? "input-error" : ""
-          }`} value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-        {formik.errors.email ? <p className="error-text">{formik.errors.email}</p> : null}   
-
-
-
-         <label htmlFor="password" className="label">Constrasena</label>
-        <input id="password" name="password" type="password"  className={`input ${
-            formik.errors.password && formik.touched.password
-              ? "input-error"
-              : ""
-          }`}  value={formik.values.password} onChange={formik.handleChange} />
-        {formik.errors.password ? <p  className="error-text">{formik.errors.password}</p> : null}
-
-
-
-        <label htmlFor="password" className="label">Confirmacion de contrasena</label>
-        <input id="confirmPassword" name="confirmPassword" type="password"  className={`input ${
-            formik.errors.confirmPassword && formik.touched.confirmPassword
-              ? "input-error"
-              : ""
-          }`} value={formik.values.confirmPassword} onChange={formik.handleChange} />
-        {formik.errors.confirmPassword ? <p className="error-text">{formik.errors.confirmPassword}</p> : null}
-
-
-
-         <label htmlFor="name" className="label">Nombre</label>
-        <input id="name" name="name" type="name"  className={`input ${
-            formik.errors.name && formik.touched.name ? "input-error" : ""
-          }`} value={formik.values.name} onChange={formik.handleChange} />
-        {formik.errors.name ? <p className="error-text">{formik.errors.name}</p> : null}
-
-
-
-         <label htmlFor="address" className="label">Direccion</label>
-        <input id="address" name="address" type="string" className={`input ${
-            formik.errors.address && formik.touched.address
-              ? "input-error"
-              : ""
-          }`} value={formik.values.address} onChange={formik.handleChange}  />
-        {formik.errors.address ? <p className="error-text">{formik.errors.address}</p> : null}
-
-
-
-         <label htmlFor="phone" className="label">Telefono</label>
-        <input id="phone" name="phone" type="string"  className={`input ${
-            formik.errors.phone && formik.touched.phone ? "input-error" : ""
-          }`} value={formik.values.phone} onChange={formik.handleChange} />
-        {formik.errors.phone ? <p className="error-text">{formik.errors.phone}</p> : null}
-
-
-
-        <Button type="submit" variant="primary" size="md" className="w-full" disabled={formik.isSubmitting}>
-            {formik.isSubmitting ? "Registrando..." : "Registrar"}
-        </Button>
-    
+      <Button
+        type="submit"
+        variant="primary"
+        size="md"
+        className="w-full mt-2"
+        disabled={formik.isSubmitting}
+      >
+        {formik.isSubmitting ? "Registrando..." : "Registrar"}
+      </Button>
     </form>
-    );
-
+  );
 }
 
 export default RegisterForm;

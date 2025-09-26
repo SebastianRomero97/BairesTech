@@ -1,27 +1,29 @@
-import ProductCard from "@/components/Ui/productCard";
 import { getAllProducts } from "@/services/products.services";
-import { H1, H3 } from "@/components/Ui/typography";
+import HeroBanner from "@/components/Ui/Banners";
+import FeaturedProducts from "@/components/Ui/featured-products";
+import FeaturedImagesCarousel from "@/components/Ui/Carrucel.Product";
+import ProductsGrid from "@/components/Ui/products-grid";
 
 export default async function Home() {
-  const allProducts = await getAllProducts();
+  const products = await getAllProducts();
+   const featured = products
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-10">
-      <header className="mb-8">
-        <H1 className="mb-2">Bienvenido a la store</H1>
-        <H3 className="text-[color:var(--fg)/0.85]">Nuestros productos</H3>
-      </header>
+    <main className="max-w-6xl mx-auto px-4 py-8 space-y-10">
+      <HeroBanner />
+  <FeaturedProducts products={products} />
 
-      <section
-        className="
-          grid gap-6
-          grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
-        "
-      >
-        {allProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </section>
+  <section className="px-4 py-10">
+      <h2 className="text-2xl font-bold mb-4">Explorá por imágenes</h2>
+      <FeaturedImagesCarousel products={featured} speed={45} height={280} cardWidth={340} />
+    </section>
+    <ProductsGrid
+        products={products}
+        cols={3}              // 2, 3 o 4
+        variant="default"     // o "wide" si preferís tarjetas apaisadas
+        title="Todos los productos"
+      />
+
     </main>
   );
 }

@@ -42,6 +42,7 @@ const logout = () => {
     setDataUser(null);
     if(typeof window !== "undefined" && window.localStorage){
         localStorage.removeItem("userSession");
+        localStorage.removeItem("cart");
     }
 };
 return(
@@ -52,6 +53,3 @@ return(
 };
 
 export const useAuth = () => useContext(AuthContext);
-
-
-

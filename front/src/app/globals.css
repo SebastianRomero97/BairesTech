@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "sweetalert2/dist/sweetalert2.min.css";
 
 /* ================================
    Base tokens (puedes mantener los tuyos)
@@ -18,7 +19,7 @@
   --tint-blue-12: rgba(10, 102, 194, .12);
   --tint-blue-16: rgba(10, 102, 194, .16);
 
-   --font-heading: var(--font-space_grotesk), sans-serif
+   --font-heading: var(--font-space_grotesk), sans-serif;
    --font-body: var(--font-inter), system-ui, sans-serif;
 }
 
@@ -167,3 +168,124 @@ body {
    @apply underline-offset-4 hover:underline;
    color: var(--brand-500);
  } 
+
+ @layer utilities {
+  @keyframes carousel {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .animate-carousel {
+    animation-name: carousel;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--duration, 30s);
+  }
+
+  /* Pausar en hover (opcional) */
+  .pause-on-hover:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* Suaviza cambios de colores/bordes/sombras cuando cambie el tema */
+.theme-transition,
+.theme-transition * {
+  transition:
+    color .35s ease,
+    background-color .35s ease,
+    border-color .35s ease,
+    box-shadow .35s ease,
+    fill .35s ease,
+    stroke .35s ease;
+}
+
+/* El body hace una transición suave del gradiente/color base */
+body {
+  transition: background-color .45s ease, background-image .45s ease;
+}
+
+/* Respetar reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition,
+  .theme-transition *,
+  body {
+    transition: none !important;
+  }
+}
+
+/* ======= Slogan en Nav ======= */
+.nav-slogan{
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;          /* tracking-wide */
+  line-height: 1.1;
+  color: color-mix(in srgb, var(--fg) 96%, transparent);
+  opacity: .98;
+
+  /* sutil glow + legibilidad sobre fondos oscuros */
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.35),
+    0 0 18px color-mix(in srgb, var(--brand-400) 45%, transparent);
+}
+
+/* En dark subimos un toque el brillo y el glow azul */
+:root[data-theme="dark"] .nav-slogan{
+  color: color-mix(in srgb, var(--near-white) 98%, transparent);
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.45),
+    0 0 22px color-mix(in srgb, var(--brand-400) 65%, transparent);
+}
+
+/* tamaños opcionales */
+.nav-slogan--sm{ font-size: .82rem; }
+.nav-slogan--md{ font-size: .92rem; }
+.nav-slogan--lg{ font-size: 1rem; }
+
+/* === SweetAlert2 – BairesTech Skin === */
+.swal2-popup.swal-popup {
+  background: var(--card-bg) !important;
+  color: var(--card-fg) !important;
+  border: 1px solid var(--card-border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 6px 30px color-mix(in srgb, var(--near-black) 40%, transparent) !important;
+  backdrop-filter: blur(8px);
+}
+.swal2-title.swal-title {
+  font-family: var(--font-heading), system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--card-fg) !important;
+}
+.swal2-html-container.swal-text {
+  color: color-mix(in srgb, var(--card-fg) 85%, transparent) !important;
+}
+
+.swal2-actions { gap: 10px !important; }
+
+.swal-btn {
+  padding: .65rem 1.1rem !important;
+  border-radius: .75rem !important;
+  border: 1px solid var(--btn-border) !important;
+  background: var(--btn-bg) !important;
+  color: var(--btn-fg) !important;
+  font-weight: 600 !important;
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+.swal-btn:hover {
+  box-shadow: inset 0 0 0 9999px var(--btn-hover-shadow) !important;
+  transform: translateY(-1px);
+}
+.swal-btn--confirm {
+  background: color-mix(in srgb, var(--brand-500) 18%, var(--btn-bg)) !important;
+}
+.swal-btn--cancel {
+  background: transparent !important;
+}
+
+.swal2-toast {
+  border: 1px solid var(--card-border) !important;
+  background: var(--card-bg) !important;
+  color: var(--card-fg) !important;
+  border-radius: 12px !important;
+}
