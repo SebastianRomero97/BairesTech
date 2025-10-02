@@ -1,8 +1,7 @@
-// src/app/about/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
 import Button from "@/components/Ui/button";
-
+import Image from "next/image";
 export const metadata: Metadata = {
   title: "Sobre mí — BairesTech",
   description:
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="max-w-6xl mx-auto px-4 md:px-6 py-10 space-y-12">
-      {/* HERO */}
+   
       <section
         className="
           grid gap-8 md:grid-cols-2 items-center
@@ -39,20 +38,17 @@ export default function AboutPage() {
             </Button>
           </div>
         </div>
-
-        {/* Imagen local de tecnología (random) */}
-        {/* Uso <img> para evitar configurar dominios de next/image */}
         <div className="relative h-64 md:h-72 rounded-2xl overflow-hidden border border-[var(--card-border)]">
-          <img
-            src="/localBairesTech.png"
+
+         <Image
+          src="/localBairesTech.png"
             alt="Local de tecnología"
             className="h-full w-full object-cover"
             loading="lazy"
-          />
+         />
         </div>
       </section>
 
-      {/* MISIÓN Y VALORES */}
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Misión & valores</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -87,7 +83,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* QUÉ HAGO */}
+    
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Qué hago</h2>
         <ul className="grid gap-3 sm:grid-cols-2">
@@ -110,7 +106,7 @@ export default function AboutPage() {
         </ul>
       </section>
 
-      {/* LÍNEA DE TIEMPO */}
+     
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Un poco de historia</h2>
         <ol className="relative pl-6">
@@ -132,7 +128,7 @@ export default function AboutPage() {
               text:
                 "Consolidación del e-commerce y soporte post-venta más sólido.",
             },
-          ].map((i, idx) => (
+          ].map((i) => (
             <li key={i.year} className="mb-4">
               <div className="absolute left-1 top-1.5 h-[calc(100%-0.5rem)] w-px bg-[var(--card-border)]" />
               <span className="absolute -left-0.5 mt-1.5 h-2.5 w-2.5 rounded-full bg-[var(--brand-500)]" />
@@ -145,7 +141,7 @@ export default function AboutPage() {
         </ol>
       </section>
 
-      {/* CTA FINAL */}
+      
       <section
         className="
           rounded-3xl border border-[var(--card-border)] bg-[var(--card-bg)]
@@ -167,7 +163,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Breadcrumb simple (opcional) */}
+     
       <nav aria-label="breadcrumbs" className="text-sm text-[color:var(--fg)/.6]">
         <ol className="flex items-center gap-2">
           <li>

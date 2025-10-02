@@ -19,7 +19,7 @@ export default function Background() {
     <div className="absolute inset-0 -z-10">
       <AnimatePresence mode="wait">
         <motion.div
-          key={bgImage} // cambia al alternar tema => dispara el cross-fade
+          key={bgImage}
           initial={{ opacity: 0, filter: 'blur(4px)' }}
           animate={{ opacity: 1, filter: 'blur(0px)' }}
           exit={{ opacity: 0, filter: 'blur(4px)' }}
@@ -29,7 +29,6 @@ export default function Background() {
         />
       </AnimatePresence>
 
-      {/* Overlay que ya responde a --hero-overlay */}
       <div className="absolute inset-0 bg-[var(--hero-overlay)]" />
     </div>
   );

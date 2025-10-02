@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { loginUser } from "@/services/auth.services"; // ✅ usar este service
+import { loginUser } from "@/services/auth.services"; 
 import {
   LoginFormValuesType,
   loginInitialValues,
@@ -19,33 +19,29 @@ function LoginForm() {
   const qs = useSearchParams();
   const from = qs.get("from");
   const setAuthFlag = () => {
-    // 7 días; ajustalo si querés
     const maxAge = 60 * 60 * 24 * 7;
     document.cookie = `bt_auth=1; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
   };
 
-
+const hasMessage = (e: unknown): e is { message: string } => {
+    return typeof e === 'object' && e !== null && 'message' in e;
+};
   const formik = useFormik<LoginFormValuesType>({
     initialValues: loginInitialValues,
     validationSchema: loginValidationSchema,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        // el back responde { login: true, user, token }
         const res = await loginUser(values);
-
-        // guardamos al mismo nivel para que dataUser.token esté disponible
         setDataUser({ ...res.user, token: res.token });
-
         setAuthFlag();
-
         notifySuccess("Sesión iniciada");
         resetForm();
         router.replace(from || "/home");
-      } catch (err: any) {
-        notifyError(err?.message || "Credenciales inválidas");
-      } finally {
-        setSubmitting(false);
-      }
+    } catch (e: unknown) {
+ notifyError(hasMessage(e) ? e.message : "Credenciales inválidas");
+} finally {
+       setSubmitting(false);
+     }
     },
   });
 

@@ -1,15 +1,14 @@
-// src/app/api/orders/route.ts
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 const API = process.env.BACKEND_URL || "http://localhost:3007";
 
 export async function GET() {
-  // En tu setup, cookies() aparenta ser async → usamos await
+  
   const store = await cookies();
   const token = store.get("token")?.value;
 
-  // Si no hay sesión, devolvemos lista vacía (o 401 si preferís)
+  
   if (!token) return NextResponse.json([], { status: 200 });
 
   const r = await fetch(`${API}/orders`, {
@@ -32,7 +31,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { items } = await req.json(); // items: number[]
+  const { items } = await req.json(); 
 
   const r = await fetch(`${API}/orders`, {
     method: "POST",

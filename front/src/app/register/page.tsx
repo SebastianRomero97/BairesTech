@@ -1,5 +1,6 @@
 import RegisterForm from "@/components/forms/RegisterForms";
 import { H3 } from "@/components/Ui/typography";
+import { Suspense } from 'react';
 
 export default function RegisterPage() {
   return (
@@ -8,7 +9,9 @@ export default function RegisterPage() {
         <H3 className="text-2xl font-bold text-center">
           Regístrate para iniciar sesión
         </H3>
+        <Suspense fallback={<div>Cargando formulario...</div>}> 
         <RegisterForm />
+       </Suspense>
       </div>
     </main>
   );

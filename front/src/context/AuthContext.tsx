@@ -1,14 +1,14 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from "react";
-//Esto es una interfaz que define los valores
+import { userSessionInterface } from "@/interfaces/userSession.interface";
 interface AuthContextProps {
     dataUser: userSessionInterface | null;
     setDataUser:(dataUser: userSessionInterface | null)=> void;
     logout: () => void;
 }
 
-//Eso SI es la creacion del context y la definicion de sus valores iniciales
+
 const AuthContext = createContext<AuthContextProps>({
     dataUser: null,
     setDataUser: () => {},
@@ -23,7 +23,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
 const [dataUser, setDataUser] = useState<userSessionInterface | null>(null)
 
-//logica, que controlare con useEffect(1 o 2)
+
 useEffect(()=>{
     if(dataUser){
         localStorage.setItem('userSession', JSON.stringify(dataUser));
@@ -37,7 +37,7 @@ useEffect(() => {
     }
     }
 }, []);
-//Metodos disponibles logout que es el faltante.
+
 const logout = () => {
     setDataUser(null);
     if(typeof window !== "undefined" && window.localStorage){

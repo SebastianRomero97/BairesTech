@@ -1,7 +1,7 @@
-interface userSessionInterface {
-    logion: boolean;
+export interface userSessionInterface {
+    logion?: boolean;
     token: string;
-    user:{
+    user?:{
         name:string;
         email: string;
         address:string;

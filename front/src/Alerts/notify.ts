@@ -1,6 +1,5 @@
-// src/Alerts/notify.ts
 'use client';
-import Swal, { SweetAlertIcon } from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 const base = Swal.mixin({
   customClass: {
@@ -19,7 +18,6 @@ const base = Swal.mixin({
   timerProgressBar: false,
 });
 
-/** Toast preconfigurado (esquina sup. derecha) */
 const toast = Swal.mixin({
   toast: true,
   position: 'top-end',
@@ -31,7 +29,6 @@ const toast = Swal.mixin({
   },
 });
 
-/* ===== API compatible con tu código ===== */
 export function notifySuccess(msg: string, title = 'Listo') {
   return base.fire({ icon: 'success', title, text: msg });
 }
@@ -45,7 +42,7 @@ export function notifyWarning(msg: string, title = 'Atención') {
   return base.fire({ icon: 'warning', title, text: msg });
 }
 
-/** Toasts rápidos */
+
 export function toastSuccess(msg: string) {
   return toast.fire({ icon: 'success', title: msg });
 }
@@ -53,7 +50,7 @@ export function toastError(msg: string) {
   return toast.fire({ icon: 'error', title: msg });
 }
 
-/** Confirm genérico (devuelve true/false) */
+
 export async function confirmDialog(
   message = '¿Estás seguro?',
   title = 'Confirmar',

@@ -1,4 +1,4 @@
-import { ReactNode, ElementType } from "react";
+import { ReactNode} from "react";
 
 type As =
   | "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
@@ -9,14 +9,13 @@ interface TypographyProps {
   className?: string;
 }
 
-/** ---------- Headings semánticos (usan tokens y tamaños responsivos) ---------- */
 
 export const H1 = ({ children, className = "" }: TypographyProps) => (
   <h1
     className={[
-      // fuente + color dependientes del tema
+    
       "font-[var(--font-heading)] text-[var(--fg)]",
-      // tamaño/espaciado
+      
       "text-4xl md:text-5xl lg:text-6xl tracking-tight font-bold leading-tight",
       className,
     ].join(" ")}
@@ -85,7 +84,7 @@ export const H6 = ({ children, className = "" }: TypographyProps) => (
   </h6>
 );
 
-/** ---------- Texto base y variantes utilitarias ---------- */
+
 
 export const Text = ({
   as: Tag = "p",
@@ -103,7 +102,7 @@ export const Text = ({
   </Tag>
 );
 
-/** Texto destacado (más grande/legible para intro) */
+
 export const Lead = ({ children, className = "" }: TypographyProps) => (
   <p
     className={[
@@ -116,7 +115,7 @@ export const Lead = ({ children, className = "" }: TypographyProps) => (
   </p>
 );
 
-/** Texto secundario/atenuado (usa alpha sobre --fg para respetar el tema) */
+
 export const Muted = ({ children, className = "" }: TypographyProps) => (
   <p
     className={[
@@ -129,7 +128,7 @@ export const Muted = ({ children, className = "" }: TypographyProps) => (
   </p>
 );
 
-/** Pie/nota pequeña */
+
 export const Caption = ({ children, className = "" }: TypographyProps) => (
   <small
     className={[

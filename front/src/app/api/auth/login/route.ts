@@ -20,14 +20,12 @@ export async function POST(req: Request) {
     );
   }
 
-  // el back ya devuelve { login:true, user, token }
   const res = NextResponse.json({ ok: true, user: data.user });
 
-  // guardamos el token en cookie httpOnly (mismo nombre que usa tu back)
   res.cookies.set("token", data.token, {
     httpOnly: true,
     sameSite: "lax",
-    secure: false, // ponelo true si servís por HTTPS
+    secure: false, 
     path: "/",
   });
 

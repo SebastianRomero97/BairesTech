@@ -1,4 +1,3 @@
-// components/Ui/button.tsx
 import React from "react";
 import Link from "next/link";
 
@@ -38,7 +37,7 @@ export default function Button({
     lg: "h-14 px-7 text-lg min-w-[14rem]",
   };
 
-  // 👇 añadimos cursor-pointer
+  
   const baseStyles =
     "rounded-lg font-medium shadow transition inline-flex items-center justify-center gap-2 " +
     "focus:outline-none focus-visible:ring-2 focus-visible:ring-[--btn-border] " +

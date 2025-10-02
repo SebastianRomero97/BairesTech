@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-//definir la interfaz de los valores del formulario = register
+
 export interface RegisterFormValuesType{
     email: string;
     password:string;
@@ -7,8 +7,9 @@ export interface RegisterFormValuesType{
     name:string;
     address: string;
     phone: string;
+    [key: string]: string;
 };
-//definir los valores iniciales de mi formulario de register
+
 export const registerInitialValues = {
     email:"",
     password:"",
@@ -17,7 +18,6 @@ export const registerInitialValues = {
     address:"",
     phone:"",
 };
-//esquema devalidacion para este formulario
 
 export const registerValidationSchema = Yup.object({
     email:Yup.string().email('Correo electronico invalido.').required("el correo electronico es requerido"),

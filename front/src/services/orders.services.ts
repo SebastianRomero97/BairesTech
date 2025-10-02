@@ -10,9 +10,9 @@ export const createOrder = async (products: number[], token?: string) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: token, // ← SIN "Bearer "
+      Authorization: token, 
     },
-    body: JSON.stringify({ products }), // ← en plural
+    body: JSON.stringify({ products }), 
   });
 
   if (!res.ok) {

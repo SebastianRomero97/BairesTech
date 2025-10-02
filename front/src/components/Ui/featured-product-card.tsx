@@ -6,7 +6,7 @@ import type { Product } from "@/interfaces/interfaces";
 
 interface FeaturedProductCardProps {
   product: Product;
-  reverse?: boolean;      // invierte el orden imagen/texto
+  reverse?: boolean;    
 }
 
 export default function FeaturedProductCard({ product, reverse }: FeaturedProductCardProps) {
@@ -17,7 +17,7 @@ export default function FeaturedProductCard({ product, reverse }: FeaturedProduc
         bg-[var(--card-bg)] text-[var(--card-fg)] shadow
       "
     >
-      {/* Glow/ambient (sutil) */}
+  
       <div className="pointer-events-none absolute inset-0
                       bg-[radial-gradient(80%_60%_at_100%_0%,rgba(78,151,255,.18),transparent_60%)]
                       opacity-70" />
@@ -30,7 +30,7 @@ export default function FeaturedProductCard({ product, reverse }: FeaturedProduc
           "z-10",
         ].join(" ")}
       >
-        {/* Texto */}
+      
         <div className="space-y-4">
           
           <h2 className="font-[var(--font-heading)] text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight">
@@ -51,7 +51,7 @@ export default function FeaturedProductCard({ product, reverse }: FeaturedProduc
           </div>
         </div>
 
-        {/* Imagen (siempre completa) */}
+   
         <div className="relative h-56 sm:h-64 md:h-72 lg:h-80">
           <Image
             src={product.image}

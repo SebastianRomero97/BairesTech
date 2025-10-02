@@ -2,14 +2,17 @@
 
 import Button from "@/components/Ui/button";
 import { useAuth } from "@/context/AuthContext";
-
+import {User} from "@/interfaces/user.interface"
 export default function Dashboard() {
-  const { dataUser } = useAuth();
 
-  // Soportamos distintas formas de venir del back
-  const user: any = (dataUser as any)?.user ?? (dataUser as any) ?? {};
+ 
+
+interface AuthContextType {
+  dataUser: { user: User } | User | null | undefined;
+}
+  const { dataUser } = useAuth() as AuthContextType;
+ const user: User = (dataUser as { user: User })?.user ?? (dataUser as User) ?? {};
   const name: string = user.name ?? user.firstName ?? "—";
-  const surname: string = user.surname ?? user.lastName ?? "—";
   const address: string =
     user.address ??
     user.direction ??
@@ -27,7 +30,7 @@ export default function Dashboard() {
         </p>
       </header>
 
-      {/* Tarjeta con datos del usuario */}
+     
       <section className="rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] p-6 space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>

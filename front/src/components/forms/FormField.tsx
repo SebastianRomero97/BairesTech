@@ -2,34 +2,33 @@
 
 import React from 'react';
 
-type FormikLike = {
-  values: Record<string, any>;
-  touched: Record<string, any>;
-  errors: Record<string, any>;
-  handleChange: React.ChangeEventHandler<HTMLInputElement>;
-  handleBlur: React.FocusEventHandler<HTMLInputElement>;
-};
+import { FormikProps } from 'formik'; 
 
-type Props = {
+type FormikLike<T> = FormikProps<T>; 
+
+
+type Props<T extends Record<string, unknown>> = {
   id: string;
-  name: string;                 // key en formik.values
+  name: keyof T; 
   label: string;
   type?: string;
-  formik: FormikLike;
-  /** Reserva 1 o 2 líneas para el error (evita “saltos”) */
+  formik: FormikLike<T>;
   errorLines?: 1 | 2;
 };
 
-export default function FormField({
+
+export default function FormField<T extends Record<string, unknown>>({
+
   id,
   name,
   label,
   type = 'text',
   formik,
   errorLines = 1,
-}: Props) {
+}: Props<T>) {
+
   const touched = formik.touched?.[name];
-  const error = formik.errors?.[name] as string | undefined;
+   const error = formik.errors?.[name] as string | undefined;  
   const hasError = Boolean(touched && error);
   const reserve = errorLines === 2 ? 'min-h-[2.5rem]' : 'min-h-[1.25rem]';
 
@@ -39,20 +38,18 @@ export default function FormField({
 
       <input
         id={id}
-        name={name}
+        name={name as string} 
         type={type}
         className={`input ${hasError ? 'input-error' : ''}`}
-        value={formik.values?.[name] ?? ''}
+        value={(formik.values?.[name] ?? '').toString()} 
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         aria-describedby={`${id}-error`}
         aria-invalid={hasError}
       />
-
-      {/* Reserva fija para el error (si no hay, mantiene el alto) */}
       <div id={`${id}-error`} aria-live="polite" className={`mt-1 ${reserve}`}>
-        {hasError && <p className="text-sm text-red-500">{error}</p>}
-      </div>
+                {hasError && error && <p className="text-sm text-red-500">{error}</p>}
+            </div>
     </div>
   );
 }

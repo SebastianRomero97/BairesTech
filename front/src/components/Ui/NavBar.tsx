@@ -8,6 +8,7 @@ import { NavItems } from "@/helpers/NavItems";
 import { FiLogOut, FiShoppingCart } from "react-icons/fi";
 import { confirmDialog, toastSuccess, notifyError } from "@/Alerts/notify";
 import { useCart } from "@/context/CartContext";
+import Image from 'next/image';
 
 const HIDE_IN_NAV = new Set<string>(["/login", "/register"]);
 
@@ -15,6 +16,23 @@ function useMounted() {
   const [m, setM] = useState(false);
   useEffect(() => setM(true), []);
   return m;
+}
+interface NavItemType {
+    name: string;
+    route: string;
+    private?: boolean;
+    hideWhenAuth?: boolean;
+}
+const hasMessage = (e: unknown): e is { message: string } => {
+    return typeof e === 'object' && e !== null && 'message' in e;
+};
+interface UserType {
+  name?: string;
+}
+interface AuthContextType {
+
+    dataUser: { user: UserType } | UserType | null | undefined; 
+    logout: () => void;
 }
 
 export default function NavBar() {
@@ -24,7 +42,7 @@ export default function NavBar() {
   const [compact, setCompact] = useState(false);
   const mounted = useMounted();
 
-  const { dataUser, logout } = useAuth();
+  const { dataUser, logout } = useAuth() as AuthContextType;
   const { getItemCount } = useCart();
   const cartCount = mounted ? getItemCount() : 0;
 
@@ -51,18 +69,18 @@ export default function NavBar() {
   if (!ok) return;
 
   try {
-    clearAuthFlag();   // ← borra la cookie-bandera
-    logout();          // ← limpia tu AuthContext + localStorage(userSession)
+    clearAuthFlag();   
+    logout();         
     toastSuccess("Sesión cerrada");
     router.replace("/landing");
-  } catch (e: any) {
-    notifyError(e?.message || "No se pudo cerrar sesión");
-  }
+ } catch (e: unknown) { 
+   notifyError(hasMessage(e) ? e.message : "No se pudo cerrar sesión");
+   }
 }
 
 
   const itemsForUser = useMemo(() => {
-    return NavItems.filter((it: any) => {
+    return NavItems.filter((it: NavItemType) => {
       if (HIDE_IN_NAV.has(it.route)) return false;
       if (it?.private && !isAuthed) return false;
       if (it?.hideWhenAuth && isAuthed) return false;
@@ -75,7 +93,7 @@ export default function NavBar() {
 
   const compactClass = mounted && compact ? "shadow-lg" : "";
   const userName =
-    (dataUser as any)?.user?.name ?? (dataUser as any)?.name ?? "";
+    (dataUser as { user: UserType })?.user?.name ?? (dataUser as UserType)?.name ?? "";
 
   return (
     <header className="sticky top-0 z-50 px-4">
@@ -88,7 +106,7 @@ export default function NavBar() {
           compactClass,
         ].join(" ")}
       >
-        {/* Glow azul inferior */}
+       
         <div
           className="
             pointer-events-none absolute inset-x-6 bottom-1 h-1
@@ -97,21 +115,21 @@ export default function NavBar() {
           "
         />
 
-        {/* Contenedor interno */}
+      
         <div className="flex h-[var(--nav-h)] items-center justify-between px-4 md:px-6">
-          {/* Logo */}
+  
           <section className="flex items-center shrink-0 [--logo-h:64px] md:[--logo-h:120px]">
-            <img
-              src="/favicon.ico"
-              alt="Logo de BairesTech"
-              className="h-[var(--logo-h)] w-auto object-contain leading-none"
+            <Image 
+             src="/favicon.ico"
+             alt="Logo de BairesTech"
+             className="h-[var(--logo-h)] w-auto object-contain leading-none"
             />
           </section>
 
-          {/* Centro: rutas o slogan */}
+         
           {isAuthed ? (
             <ul className="hidden md:flex items-center gap-6">
-              {itemsForUser.map((item: any) => {
+              {itemsForUser.map((item: NavItemType) => {
                 const active = isActive(item.route);
                 const baseClasses = [
                   "inline-flex items-center px-2 py-1 relative",
@@ -122,7 +140,7 @@ export default function NavBar() {
                   active ? "after:scale-x-100 text-[var(--nav-link-hover)]" : "",
                 ].join(" ");
 
-                // Cart con badge
+               
                 if (item.route === "/cart") {
                   return (
                     <li key={item.name} className="relative">
@@ -165,7 +183,7 @@ export default function NavBar() {
             </div>
           )}
 
-          {/* Derecha: saludo + icono salir */}
+        
           {isAuthed ? (
             <div className="hidden md:flex items-center gap-3">
               <span className="text-sm mr-1">
@@ -185,7 +203,6 @@ export default function NavBar() {
             <div className="hidden md:flex items-center gap-3" />
           )}
 
-          {/* Hamburguesa móvil sólo si hay sesión */}
           {isAuthed && (
             <button
               aria-label="Abrir menú"
@@ -199,11 +216,11 @@ export default function NavBar() {
           )}
         </div>
 
-        {/* Drawer móvil */}
+       
         {mounted && isAuthed && open && (
           <div className="md:hidden px-4 pb-4 pt-0">
             <ul className="grid gap-2">
-              {itemsForUser.map((item: any) => (
+              {itemsForUser.map((item: NavItemType) => (
                 <li key={item.name}>
                   <Link
                     href={item.route}
@@ -217,7 +234,7 @@ export default function NavBar() {
                   >
                     <span>{item.name}</span>
 
-                    {/* Badge móvil para /cart */}
+                   
                     {item.route === "/cart" && (
                       <span className="ml-2 inline-flex items-center gap-1">
                         <FiShoppingCart className="h-4 w-4 opacity-85" />

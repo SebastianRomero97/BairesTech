@@ -20,7 +20,7 @@ export default function Landing () {
   <div className="relative z-10 h-full flex items-center justify-center px-6 translate-y-40">
     <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8">
           
-          {/* Texto a la izquierda */}
+     
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -32,7 +32,7 @@ export default function Landing () {
             </H1>
           </motion.div>
 
-          {/* Botones a la derecha */}
+       
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}

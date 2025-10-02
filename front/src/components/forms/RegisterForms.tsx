@@ -16,6 +16,9 @@ function RegisterForm() {
   const router = useRouter();
   const qs = useSearchParams();
   const from = qs.get("from");
+  const hasMessage = (e: unknown): e is { message: string } => {
+    return typeof e === 'object' && e !== null && 'message' in e;
+};
 
   const formik = useFormik<RegisterFormValuesType>({
     initialValues: registerInitialValues,
@@ -26,8 +29,8 @@ function RegisterForm() {
         notifySuccess("Cuenta creada. Iniciá sesión para continuar.");
         resetForm();
         router.replace(`/login${from ? `?from=${encodeURIComponent(from)}` : ""}`);
-      } catch (e: any) {
-        notifyError(e?.message || "No se pudo completar el registro");
+      } catch (e: unknown) {
+        notifyError(hasMessage(e) ? e.message : "No se pudo completar el registro");
       } finally {
         setSubmitting(false);
       }
@@ -57,7 +60,7 @@ function RegisterForm() {
         label="Teléfono"
         type="text"
         formik={formik}
-        errorLines={2}   // por si el mensaje es más largo
+        errorLines={2}  
       />
 
       <Button

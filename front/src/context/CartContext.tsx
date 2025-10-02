@@ -32,7 +32,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const { dataUser } = useAuth();
   const [cartItems, setCartItems] = useState<Product[]>([]);
 
-  // Guardar en localStorage SOLO si hay sesión
+
   useEffect(() => {
     if (!dataUser) return;
     if (cartItems.length > 0) {
@@ -42,9 +42,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   }, [cartItems, dataUser]);
 
-  // Responder a cambios de sesión:
-  // - si no hay user => limpiar estado + storage
-  // - si hay user   => restaurar (si existiera) o iniciar vacío
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 

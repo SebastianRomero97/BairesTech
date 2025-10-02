@@ -103,7 +103,7 @@ export default function ProductDetail() {
 
       <article className="rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] overflow-hidden shadow hover:shadow-[var(--card-hover-shadow)] transition-[box-shadow,transform] duration-200">
         <div className="grid md:grid-cols-2 gap-0">
-          {/* Imagen grande */}
+    
           <div className="relative h-[380px] sm:h-[460px] md:h-[520px] bg-[color:var(--btn-bg)/.06]">
             <Image
               src={product.image}
@@ -115,7 +115,7 @@ export default function ProductDetail() {
             />
           </div>
 
-          {/* Info */}
+    
           <div className="p-6 md:p-8 flex flex-col">
             <h1 className="font-[var(--font-heading)] text-2xl md:text-3xl font-bold mb-2">
               {product.name}

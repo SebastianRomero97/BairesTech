@@ -5,8 +5,8 @@ import Button from "@/components/Ui/button";
 interface CardProps {
   product: Product;
   variant?: "default" | "wide";
-  reverse?: boolean;         // si ya la usas
-  framed?: boolean;          // NUEVO: controla el marco propio
+  reverse?: boolean;         
+  framed?: boolean;        
 }
 
 const currency = (n: number) =>
@@ -15,7 +15,7 @@ const currency = (n: number) =>
 const FeaturedProductCard = ({ product, variant = "default", reverse = false, framed = true }: CardProps) => {
   const frameClass = framed
     ? "rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)]"
-    : "rounded-[inherit] bg-transparent border-0"; // hereda radio del padre
+    : "rounded-[inherit] bg-transparent border-0"; 
 
   if (variant === "wide") {
     return (
@@ -48,7 +48,7 @@ const FeaturedProductCard = ({ product, variant = "default", reverse = false, fr
     );
   }
 
-  // variante compacta
+  
   return (
     <article className={`${frameClass} text-[var(--card-fg)] overflow-hidden`}>
       <div className="relative w-full aspect-square bg-[color:var(--btn-bg)/.06]">

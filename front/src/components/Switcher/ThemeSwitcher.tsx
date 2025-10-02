@@ -11,7 +11,7 @@ export default function ThemeFloatToggle() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  // 1) Antes de montar: render estático (sin leer theme/resolvedTheme)
+
   if (!mounted) {
     return (
       <button
@@ -29,7 +29,7 @@ export default function ThemeFloatToggle() {
     );
   }
 
-  // 2) Ya montado: ahora sí podemos leer el tema real
+
   const current = (theme === 'system' ? resolvedTheme : theme) || 'light';
   const isDark = current === 'dark';
 

@@ -19,8 +19,8 @@ export default async function Home() {
     </section>
     <ProductsGrid
         products={products}
-        cols={3}              // 2, 3 o 4
-        variant="default"     // o "wide" si preferís tarjetas apaisadas
+        cols={3}             
+        variant="default"     
         title="Todos los productos"
       />
 

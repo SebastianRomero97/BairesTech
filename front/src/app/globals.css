@@ -1,20 +1,18 @@
 @import "tailwindcss";
 @import "sweetalert2/dist/sweetalert2.min.css";
 
-/* ================================
-   Base tokens (puedes mantener los tuyos)
-================================ */
+
 @theme {
   --brand-400: #4e97ff;
-  --brand-500: #0a66c2; /* azul de marca */
+  --brand-500: #0a66c2; 
   --brand-600: #0959aa;
 
-  --near-white: #f6f8fb;   /* blanco no absoluto */
-  --near-black: #0a0a0a;   /* negro UI */
-  --gray-900:  #111827;    /* texto oscuro */
-  --gray-100:  #e5e7eb;    /* texto claro (no puro blanco) */
+  --near-white: #f6f8fb;   
+  --near-black: #0a0a0a;   
+  --gray-900:  #111827;    
+  --gray-100:  #e5e7eb;    
 
-  /* utilidades para tintes */
+  
   --tint-blue-08: rgba(10, 102, 194, .08);
   --tint-blue-12: rgba(10, 102, 194, .12);
   --tint-blue-16: rgba(10, 102, 194, .16);
@@ -23,14 +21,12 @@
    --font-body: var(--font-inter), system-ui, sans-serif;
 }
 
-/* ================================
-   LIGHT THEME (default)
-================================ */
+
 :root {
   color-scheme: light;
 
-  /* fondo: blanco → gris más oscuro hacia abajo */
-  --bg-color: #ffffff; /* color base por si no aplica el gradient */
+
+  --bg-color: #ffffff; 
   --bg-gradient: linear-gradient(
     to bottom,
     #ffffff 0%,
@@ -39,31 +35,27 @@
     #59b8f8 100%
   );
 
-  /* texto y borde */
-  --fg: var(--gray-900);        /* gris oscuro, no negro absoluto */
-  --border: var(--brand-500);   /* borde azul (pedido) */
 
-  /* botones */
-  --btn-bg: var(--near-white);  /* blanco no absoluto */
-  --btn-fg: #0b1220;            /* negro “UI” */
+  --fg: var(--gray-900);        
+  --border: var(--brand-500);   
+
+
+  --btn-bg: var(--near-white);  
+  --btn-fg: #0b1220;           
   --btn-border: var(--brand-500);
-  /* hover = mismo fondo + tinte azul suave */
+
   --btn-hover-shadow: inset 0 0 0 9999px var(--tint-blue-12);
 
-  /* tarjetas (igual que botón) */
+
   --card-bg: var(--near-white);
   --card-fg: #0b1220;
   --card-border: var(--brand-500);
   --card-hover-shadow: inset 0 0 0 9999px var(--tint-blue-12);
 }
 
-/* ================================
-   DARK THEME
-================================ */
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* fondo: azul oscuro → más oscuro hacia abajo */
   --bg-color: #0b1930;
   --bg-gradient: linear-gradient(
     to bottom,
@@ -73,27 +65,22 @@
     #050a14 100%
   );
 
-  /* texto y borde */
-  --fg: #d1d5db;              /* gris claro (no blanco absoluto) */
-  --border: var(--brand-500); /* borde azul */
 
-  /* botones (negro con texto gris claro y borde azul) */
-  --btn-bg: var(--near-black);  /* negro */
-  --btn-fg: #f1f5f9;            /* gris claro (no blanco absoluto) */
-  --btn-border: var(--brand-500);
-  /* hover: tinte azul */
+  --fg: #d1d5db;             
+  --border: var(--brand-500); 
+
+  --btn-bg: var(--near-black);  
+  --btn-fg: #f1f5f9;       
+
   --btn-hover-shadow: inset 0 0 0 9999px var(--tint-blue-16);
-  /* tarjetas (mismo esquema que botón) */
+
   --card-bg: var(--near-black);
   --card-fg: #f1f5f9;
   --card-border: var(--brand-500);
   --card-hover-shadow: inset 0 0 0 9999px var(--tint-blue-16);
 }
 
-/* ================================
-   Aplicación global de fondo
-   (usamos gradient + color base)
-================================ */
+
 body {
   color: var(--fg);
   background-color: var(--bg-color);
@@ -103,7 +90,7 @@ body {
   background-size: cover;
 }
 
-/* ==== NAV TOKENS ==== */
+
 :root {
    --nav-bg: transparent;
   --nav-border: var(--btn-border);
@@ -117,22 +104,22 @@ body {
   --nav-link-hover: var(--fg);
 }
 
-/* === Contraste sobre imágenes/fondos oscuros === */
+
 :root {
-  --hero-overlay: rgba(0,0,0,.60);      /* más fuerte en light */
-  --fg-on-image: #e5e7eb;               /* texto claro sobre imagen */
+  --hero-overlay: rgba(0,0,0,.60);     
+  --fg-on-image: #e5e7eb;               
 }
 :root[data-theme="dark"] {
-  --hero-overlay: rgba(0,0,0,.40);      /* un poco más suave en dark */
+  --hero-overlay: rgba(0,0,0,.40);    
   --fg-on-image: #e5e7eb;
 }
 
-/* Helper: cuando un bloque está sobre media oscura, forzá el fg local */
+
 .on-image { --fg: var(--fg-on-image); }
 
-/* (opcional) Navbar un poco más sólida en light sobre foto oscura */
+
 :root {
-  --nav-bg: color-mix(in srgb, white 50%, transparent); /* subimos opacidad */
+  --nav-bg: color-mix(in srgb, white 50%, transparent); 
   --nav-border: var(--btn-border);
   --nav-link: color-mix(in srgb, var(--fg) 85%, transparent);
   --nav-link-hover: var(--fg);
@@ -141,7 +128,7 @@ body {
   --nav-bg: color-mix(in srgb, var(--near-black) 70%, transparent);
 }
 
-/* === Inputs base === */
+
 .input {
   @apply w-full px-4 py-2 rounded-lg border
          border-[var(--card-border)]
@@ -162,8 +149,7 @@ body {
 }
 
 
-/* helpers comunes */
- /* Links de texto comunes (no botones) */
+
  .link {
    @apply underline-offset-4 hover:underline;
    color: var(--brand-500);
@@ -182,13 +168,13 @@ body {
     animation-duration: var(--duration, 30s);
   }
 
-  /* Pausar en hover (opcional) */
+
   .pause-on-hover:hover {
     animation-play-state: paused;
   }
 }
 
-/* Suaviza cambios de colores/bordes/sombras cuando cambie el tema */
+
 .theme-transition,
 .theme-transition * {
   transition:
@@ -200,12 +186,12 @@ body {
     stroke .35s ease;
 }
 
-/* El body hace una transición suave del gradiente/color base */
+
 body {
   transition: background-color .45s ease, background-image .45s ease;
 }
 
-/* Respetar reduced-motion */
+
 @media (prefers-reduced-motion: reduce) {
   .theme-transition,
   .theme-transition *,
@@ -214,23 +200,23 @@ body {
   }
 }
 
-/* ======= Slogan en Nav ======= */
+
 .nav-slogan{
   font-family: var(--font-heading);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .12em;          /* tracking-wide */
+  letter-spacing: .12em;         
   line-height: 1.1;
   color: color-mix(in srgb, var(--fg) 96%, transparent);
   opacity: .98;
 
-  /* sutil glow + legibilidad sobre fondos oscuros */
+
   text-shadow:
     0 1px 0 rgba(0,0,0,.35),
     0 0 18px color-mix(in srgb, var(--brand-400) 45%, transparent);
 }
 
-/* En dark subimos un toque el brillo y el glow azul */
+
 :root[data-theme="dark"] .nav-slogan{
   color: color-mix(in srgb, var(--near-white) 98%, transparent);
   text-shadow:
@@ -238,12 +224,12 @@ body {
     0 0 22px color-mix(in srgb, var(--brand-400) 65%, transparent);
 }
 
-/* tamaños opcionales */
+
 .nav-slogan--sm{ font-size: .82rem; }
 .nav-slogan--md{ font-size: .92rem; }
 .nav-slogan--lg{ font-size: 1rem; }
 
-/* === SweetAlert2 – BairesTech Skin === */
+
 .swal2-popup.swal-popup {
   background: var(--card-bg) !important;
   color: var(--card-fg) !important;
