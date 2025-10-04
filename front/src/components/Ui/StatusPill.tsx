@@ -1,4 +1,3 @@
-// src/components/Ui/StatusPill.tsx
 const map: Record<string, string> = {
   pending: "bg-yellow-500/20 text-yellow-300 border-yellow-500/40",
   paid: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
