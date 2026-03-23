@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { getApiBaseUrl } from "@/config/api";
 
-const API = process.env.BACKEND_URL || "http://localhost:3007";
+const isProd = process.env.NODE_ENV === "production";
 
 export async function POST(req: Request) {
   const payload = await req.json();
 
-  const r = await fetch(`${API}/users/login`, {
+  const r = await fetch(`${getApiBaseUrl()}/users/login`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(payload),
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
   res.cookies.set("token", data.token, {
     httpOnly: true,
     sameSite: "lax",
-    secure: false, 
+    secure: isProd,
     path: "/",
   });
 

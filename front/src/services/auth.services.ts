@@ -1,6 +1,7 @@
 import { LoginFormValuesType } from "@/validators/loginSchema";
 import { RegisterFormValuesType } from "@/validators/registerSchema";
 import { userSessionInterface } from "@/interfaces/userSession.interface";
+import { getApiBaseUrl } from "@/config/api";
 
 const hasMessage = (e: unknown): e is { message: string } => {
     return typeof e === 'object' && e !== null && 'message' in e;
@@ -8,7 +9,7 @@ const hasMessage = (e: unknown): e is { message: string } => {
 
 export const registerUser = async (userData: RegisterFormValuesType): Promise<userSessionInterface> => {
 try {
-    const response = await fetch(`http://localhost:3007/users/register`,{
+    const response = await fetch(`${getApiBaseUrl()}/users/register`,{
         method: 'POST',
         headers: {
             'content-type': "application/json",
@@ -29,7 +30,7 @@ try {
 
 export const loginUser = async (userData: LoginFormValuesType): Promise<userSessionInterface> => {
     try {
-        const response = await fetch (`http://localhost:3007/users/login`, {
+        const response = await fetch(`${getApiBaseUrl()}/users/login`, {
             method:'POST',
             headers: {
             'content-type': "application/json",

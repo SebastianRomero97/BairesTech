@@ -1,4 +1,5 @@
 import { Product } from "@/interfaces/interfaces";
+import { getApiBaseUrl } from "@/config/api";
 
 const hasMessage = (e: unknown): e is { message: string } => {
     return typeof e === 'object' && e !== null && 'message' in e;
@@ -7,7 +8,7 @@ const hasMessage = (e: unknown): e is { message: string } => {
 
 export const getAllProducts = async (): Promise<Product[]> => {
     try{
-    const res = await fetch(`http://localhost:3007/products`,{method: 'GET'});
+    const res = await fetch(`${getApiBaseUrl()}/products`, { method: "GET" });
 
            if (!res.ok) {
             throw new Error(`Error al cargar productos: ${res.status}`);

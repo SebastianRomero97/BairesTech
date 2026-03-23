@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-
-const API = process.env.BACKEND_URL || "http://localhost:3007";
+import { getApiBaseUrl } from "@/config/api";
 
 export async function GET() {
   
@@ -11,7 +10,7 @@ export async function GET() {
   
   if (!token) return NextResponse.json([], { status: 200 });
 
-  const r = await fetch(`${API}/orders`, {
+  const r = await fetch(`${getApiBaseUrl()}/orders`, {
     headers: { Authorization: `Bearer ${token}` },
     cache: "no-store",
   });
@@ -31,15 +30,15 @@ export async function POST(req: Request) {
     );
   }
 
-  const { items } = await req.json(); 
+  const { products } = await req.json();
 
-  const r = await fetch(`${API}/orders`, {
+  const r = await fetch(`${getApiBaseUrl()}/orders`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ items }),
+    body: JSON.stringify({ products }),
   });
 
   const data = await r.json().catch(() => ({}));

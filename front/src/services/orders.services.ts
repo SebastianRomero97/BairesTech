@@ -1,3 +1,5 @@
+import { getApiBaseUrl } from "@/config/api";
+
 export const createOrder = async (products: number[], token?: string) => {
   if (!Array.isArray(products) || products.length === 0) {
     throw new Error("No hay productos para comprar");
@@ -6,7 +8,7 @@ export const createOrder = async (products: number[], token?: string) => {
     throw new Error("Token requerido");
   }
 
-  const res = await fetch("http://localhost:3007/orders", {
+  const res = await fetch(`${getApiBaseUrl()}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
