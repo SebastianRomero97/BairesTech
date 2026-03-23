@@ -43,7 +43,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
-       <div className={`${geistSans.variable} ${geistMono.variable} ${space_grotesk.variable}antialiased`}>
+    <div className={`${geistSans.variable} ${geistMono.variable} ${space_grotesk.variable}antialiased`}>
         <AuthProvider>
           <CartProvider>
           <>

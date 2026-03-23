@@ -26,7 +26,7 @@ interface NavItemType {
 const hasMessage = (e: unknown): e is { message: string } => {
     return typeof e === 'object' && e !== null && 'message' in e;
 };
-interface UserType {
+export interface UserType {
   name?: string;
 }
 interface AuthContextType {
@@ -119,11 +119,14 @@ export default function NavBar() {
         <div className="flex h-[var(--nav-h)] items-center justify-between px-4 md:px-6">
   
           <section className="flex items-center shrink-0 [--logo-h:64px] md:[--logo-h:120px]">
-            <Image 
-             src="/favicon.ico"
-             alt="Logo de BairesTech"
-             className="h-[var(--logo-h)] w-auto object-contain leading-none"
-            />
+            <Image
+  src="/favicon.ico"
+  alt="Logo de BairesTech"
+  width={64}
+  height={64}
+  className="h-[var(--logo-h)] w-auto object-contain leading-none"
+/>
+
           </section>
 
          

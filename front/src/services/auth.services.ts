@@ -36,6 +36,7 @@ export const loginUser = async (userData: LoginFormValuesType): Promise<userSess
         },
         body: JSON.stringify(userData),
     });
+
           if(response.ok){
         return response.json() as Promise<userSessionInterface>;
     }else{

@@ -4,10 +4,12 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/envs";
 
 const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization;
-  if (!token) {
+  const raw = req.headers.authorization;
+  if (!raw) {
     return next(new ClientError("Token is required"));
   }
+
+  const token = raw.startsWith("Bearer ") ? raw.slice(7) : raw;
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
@@ -15,7 +17,6 @@ const checkLogin = async (req: Request, res: Response, next: NextFunction) => {
   } catch (error) {
     next(new ClientError("Invalid token"));
   }
-  console.log("Token Check OK");
 
   next();
 };

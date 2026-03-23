@@ -43,6 +43,7 @@ export default function AboutPage() {
          <Image
           src="/localBairesTech.png"
             alt="Local de tecnología"
+            fill
             className="h-full w-full object-cover"
             loading="lazy"
          />
@@ -124,7 +125,7 @@ export default function AboutPage() {
               text: "Catálogo curado y primeras alianzas con servicios técnicos.",
             },
             {
-              year: "2024–hoy",
+              year: "2024-hoy",
               text:
                 "Consolidación del e-commerce y soporte post-venta más sólido.",
             },
